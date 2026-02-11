@@ -21,18 +21,25 @@ lavalink:
     youtubeSearchEnabled: true
     soundcloudSearchEnabled: true
     gc-warnings: true
-    youtube:
-      clients:
-        - "WEB"
-        - "ANDROID"
-      oauth:
-        refreshToken: "${YOUTUBE_REFRESH_TOKEN}"
   plugins:
-    - name: "youtube"
-      dependency: "dev.lavalink.youtube:youtube-plugin:1.17.0"
+    - dependency: "dev.lavalink.youtube:youtube-plugin:1.17.0"
+      snapshot: false
 
 plugins:
-  directory: "/plugins"
+  youtube:
+    enabled: true
+    allowSearch: true
+    allowDirectVideoIds: true
+    allowDirectPlaylistIds: true
+    clients:
+      - MUSIC
+      - ANDROID_VR
+      - WEB
+      - WEBEMBEDDED
+    oauth:
+      enabled: true
+      skipInitialization: true
+      refreshToken: "${YOUTUBE_REFRESH_TOKEN}"
 
 logging:
   level:
