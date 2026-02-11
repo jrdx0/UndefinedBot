@@ -1,8 +1,6 @@
 services:
   lavalink:
     image: ghcr.io/lavalink-devs/lavalink:4-alpine
-    container_name: lavalink
-    hostname: lavalink
     volumes:
       - ./lavalink-config:/opt/Lavalink/config
     environment:
@@ -10,14 +8,12 @@ services:
       - YOUTUBE_REFRESH_TOKEN=${YOUTUBE_REFRESH_TOKEN}
     restart: unless-stopped
     networks:
-      - undefined-bot
+      - dokploy-network
 
   app:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: undefined-bot
-    hostname: undefined-bot
     environment:
       - DISCORD_TOKEN=${DISCORD_TOKEN}
       - SPOTIFY_CLIENT_ID=${SPOTIFY_CLIENT_ID}
@@ -25,14 +21,14 @@ services:
       - COMMAND_PREFIX=${COMMAND_PREFIX:-u$}
       - TIMEOUT_MINUTES=${TIMEOUT_MINUTES:-2}
       - YOUTUBE_REFRESH_TOKEN=${YOUTUBE_REFRESH_TOKEN}
-      - LAVALINK_HOST=lavalink
-      - LAVALINK_PORT=2333
+      - LAVALINK_HOST=${LAVALINK_HOST}
+      - LAVALINK_PORT=${LAVALINK_PORT}
     restart: unless-stopped
     depends_on:
       - lavalink
     networks:
-      - undefined-bot
+      - dokploy-network
 
 networks:
-  undefined-bot:
+  dokploy-network:
     external: true
